@@ -1,0 +1,14 @@
+# Environment variables
+.env
+
+# IDE
+.vscode
+.idea
+
+# Dependencies
+node_modules/
+dist/
+
+# Yarn
+yarn.lock
+yarn-error.log
