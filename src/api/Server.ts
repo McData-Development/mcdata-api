@@ -1,4 +1,5 @@
 import Express, { Application } from 'express';
+import { initRoutes } from './routes';
 
 /**
  * Server
@@ -11,7 +12,7 @@ class Server {
     }
 
     constructor() {
-
+        initRoutes(this.application, this.options.prefix);
     }
 
     /**
