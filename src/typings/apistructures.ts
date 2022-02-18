@@ -1,3 +1,23 @@
+export namespace Player {
+
+    export interface constructor {
+        id: string;
+        name: string;
+        history: Array<history>;
+    }
+
+    export interface info {
+        id: string;
+        name: string;
+    }
+
+    export interface history {
+        name: string;
+        changedToAt?: number;
+    }
+
+}
+
 export interface ServerConstructor {
     ip: string;
     port: number;

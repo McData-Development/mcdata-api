@@ -1,11 +1,12 @@
 import NodeCache, { Options } from 'node-cache';
-import { ServerApi } from '../../utils/Axios';
+import { ServerApi, MojangApi } from '../../utils/Axios';
 
 /**
  * Service
  */
 class Service {
 
+    protected MojangApi: typeof MojangApi = MojangApi;
     protected ServerApi: typeof ServerApi = ServerApi;
     protected cache: NodeCache;
 
