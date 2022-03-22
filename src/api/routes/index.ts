@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import PlayerRoute from './PlayerRoute';
 
 /**
  * Initialse routes
@@ -6,7 +7,5 @@ import { Router } from 'express';
  * @param prefix URL prefix
  */
 export const initRoutes = (router: Router, prefix: string = '/api'): void => {
-
-    
-
+    router.use(`${prefix}/players`, new PlayerRoute().router);
 }
