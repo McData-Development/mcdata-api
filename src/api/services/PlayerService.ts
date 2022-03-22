@@ -31,12 +31,13 @@ class PlayerService extends Service {
         if (playerSlug.length <= 16) {
             try {
                 let fetchedPlayer: Player.Details = await this.fetchUUID(playerSlug);
-                objBuilder = { id: fetchedPlayer.id, username: fetchedPlayer.username, history: [] };
+                let fetchedHistory: Array<Player.History> = await this.fetchHistory(fetchedPlayer.id);
+                objBuilder = { id: fetchedPlayer.id, username: fetchedPlayer.username, history: fetchedHistory };
     
                 this.cache.set<Player.Profile>(fetchedPlayer.username, {
                     id: fetchedPlayer.id,
                     username: fetchedPlayer.username,
-                    history: []
+                    history: fetchedHistory
                 });
     
                 return objBuilder;
@@ -51,12 +52,13 @@ class PlayerService extends Service {
         } else {
             try {
                 let fetchedPlayer: Player.Details = await this.fetchUsername(playerSlug);
-                objBuilder = { id: fetchedPlayer.id, username: fetchedPlayer.username, history: [] };
+                let fetchedHistory: Array<Player.History> = await this.fetchHistory(fetchedPlayer.id);
+                objBuilder = { id: fetchedPlayer.id, username: fetchedPlayer.username, history: fetchedHistory };
 
                 this.cache.set<Player.Profile>(fetchedPlayer.id, {
                     id: fetchedPlayer.id,
                     username: fetchedPlayer.username,
-                    history: []
+                    history: fetchedHistory
                 });
 
                 return objBuilder;
@@ -104,7 +106,28 @@ class PlayerService extends Service {
                 id: data.id,
                 username: data.name,
             }
-        } catch (e) {
+        } catch (e: any) {
+            throw e;
+        }
+    }
+
+    /**
+     * Fetch Minecraft user history
+     * @param uuid Player UUID
+     */
+    private async fetchHistory(uuid: string): Promise<Array<Player.History>> {
+        try {
+            const { status, data } = await this.MojangApi.get<Array<Mojang.History>>(`/user/profiles/${uuid}/names`);
+            if (status === 204) 
+                throw new Error('UNKNOWN_UUID');
+
+            return [
+                ...data.map((history: Mojang.History): Player.History => {
+                    if (history.changedToAt) return { username: history.name, changedAt: history.changedToAt };
+                    return { username: history.name };
+                })
+            ];
+        } catch (e: any) {
             throw e;
         }
     }

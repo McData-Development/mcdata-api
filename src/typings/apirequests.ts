@@ -13,4 +13,9 @@ export namespace Mojang {
         }>;
     }
 
+    export interface History {
+        name: string;
+        changedToAt?: number;
+    }
+
 }

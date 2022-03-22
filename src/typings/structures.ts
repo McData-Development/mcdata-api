@@ -2,7 +2,7 @@ export namespace Player {
 
     export interface History {
         username: string;
-        changedAt?: Date;
+        changedAt?: number;
     }
 
     export interface Profile extends Details {
