@@ -9,7 +9,7 @@ import { Mojang } from '../../typings/apirequests';
 class PlayerService extends Service {
 
     constructor() {
-        super({ stdTTL: 10800, checkperiod: 20000 });
+        super({ stdTTL: 3600, checkperiod: 4000 });
     }
 
     /**
@@ -20,6 +20,19 @@ class PlayerService extends Service {
         try {
             let fetchedPlayer = await this.get(player);
             return [...fetchedPlayer.history];
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    /**
+     * Get player skin
+     * @param player Player credential
+     */
+    public async skin(player: string): Promise<Player.Skin> {
+        try {
+            let fetchedPlayer = await this.get(player);
+            return { ...fetchedPlayer.skin };
         } catch (e) {
             throw e;
         }
@@ -38,21 +51,23 @@ class PlayerService extends Service {
         let objBuilder: Player.Profile = {
             id: '',
             username: '',
-            history: []
+            history: [],
+            skin: { properties: [], skin_type: '' }
         }
 
         if (playerSlug.length <= 16) {
             try {
                 let fetchedPlayer: Player.Details = await this.fetchUUID(playerSlug);
                 let fetchedHistory: Array<Player.History> = await this.fetchHistory(fetchedPlayer.id);
-                objBuilder = { id: fetchedPlayer.id, username: fetchedPlayer.username, history: fetchedHistory };
-    
-                this.cache.set<Player.Profile>(fetchedPlayer.username, {
-                    id: fetchedPlayer.id,
-                    username: fetchedPlayer.username,
+                let fetchedSkin: Player.Skin = await this.fetchSkin(fetchedPlayer.id);
+                objBuilder = { 
+                    id: fetchedPlayer.id, 
+                    username: fetchedPlayer.username, 
+                    skin: { ...fetchedSkin },
                     history: fetchedHistory
-                });
+                };
     
+                this.cache.set<Player.Profile>(playerSlug, { ...objBuilder });
                 return objBuilder;
             } catch (e: any) {
                 switch (e?.message) {
@@ -66,14 +81,15 @@ class PlayerService extends Service {
             try {
                 let fetchedPlayer: Player.Details = await this.fetchUsername(playerSlug);
                 let fetchedHistory: Array<Player.History> = await this.fetchHistory(fetchedPlayer.id);
-                objBuilder = { id: fetchedPlayer.id, username: fetchedPlayer.username, history: fetchedHistory };
-
-                this.cache.set<Player.Profile>(fetchedPlayer.id, {
+                let fetchedSkin: Player.Skin = await this.fetchSkin(fetchedPlayer.id);
+                objBuilder = { 
                     id: fetchedPlayer.id,
-                    username: fetchedPlayer.username,
+                    username: fetchedPlayer.username, 
+                    skin: { ...fetchedSkin },
                     history: fetchedHistory
-                });
+                };
 
+                this.cache.set<Player.Profile>(playerSlug, { ...objBuilder });
                 return objBuilder;
             } catch (e: any) {
                 switch (e?.message) {
@@ -118,6 +134,30 @@ class PlayerService extends Service {
             return {
                 id: data.id,
                 username: data.name,
+            }
+        } catch (e: any) {
+            throw e;
+        }
+    }
+
+    /**
+     * Fetch Minecraft skin
+     * @param uuid Player UUID
+     */
+    private async fetchSkin(uuid: string): Promise<Player.Skin> {
+        try {
+            const { data } = await this.MojangSession.get<Mojang.Profile>(`/profile/${uuid}`);
+            if (!data.id)
+                throw new Error('UNKNOWN_UUID');
+
+            let skinType = this.Util.getSkinType(uuid);
+            return {
+                skin_type: skinType,
+                properties: [
+                    ...data.properties.map((props) => {
+                        return { type: props.name, value: props.value };
+                    })
+                ]
             }
         } catch (e: any) {
             throw e;
