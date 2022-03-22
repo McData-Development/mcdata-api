@@ -18,6 +18,7 @@ class PlayerRoute extends Route {
      * Initialise routes
      */
     private init(): void {
+        this.router.get('/:player/history', this.controller.history.bind(this.controller));
         this.router.get('/:player', this.controller.get.bind(this.controller));
     }
 

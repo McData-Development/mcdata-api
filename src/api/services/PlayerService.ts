@@ -13,10 +13,23 @@ class PlayerService extends Service {
     }
 
     /**
+     * Get player history
+     * @param player Player credential
+     */
+    public async history(player: string): Promise<Array<Player.History>> {
+        try {
+            let fetchedPlayer = await this.get(player);
+            return [...fetchedPlayer.history];
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    /**
      * Get player profile
      * @param player Player credential
      */
-    public async get(player: string) {
+    public async get(player: string): Promise<Player.Profile> {
         let playerSlug: string = player.toLowerCase().split('-').join('');
 
         let cachedPlayer = this.cache.get<Player.Profile>(playerSlug);

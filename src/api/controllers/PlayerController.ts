@@ -31,6 +31,27 @@ class PlayerController extends Controller {
         }
     }
 
+    /**
+     * Get player history
+     * @param req Express request
+     * @param res Express response
+     * @param next Express nextfunction
+     */
+    public async history(req: Request, res: Response, next: NextFunction): Promise<Response> {
+        try {
+            const history = await this.playerService.history(req.params.player);
+            return res.json({ history: history });
+        } catch (e: any) {
+            switch (e.message) {
+                case 'UNKNOWN_PLAYER':
+                    return new this.ApiError('PLAYER_UNKNOWN').send(res);
+                default:
+                    this.Logger.error(e?.message);
+                    return new this.ApiError('PLAYER_FAILED_FETCH').send(res);
+            }
+        }
+    }
+
 }
 
 export default PlayerController;
