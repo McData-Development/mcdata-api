@@ -1,15 +1,11 @@
 import { Router } from 'express';
-import ServerRoute from './ServerRoute';
 import PlayerRoute from './PlayerRoute';
 
 /**
- * Initialise the routes
+ * Initialse routes
  * @param router Express router
  * @param prefix URL prefix
  */
-export const initRoutes = (router: Router, prefix: string): void => {
-
-    router.use(`${prefix}/servers`, new ServerRoute().router);
+export const initRoutes = (router: Router, prefix: string = '/api'): void => {
     router.use(`${prefix}/players`, new PlayerRoute().router);
-
 }

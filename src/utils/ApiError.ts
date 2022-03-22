@@ -1,31 +1,25 @@
 import { Response } from 'express';
-import { errors } from '../constants/errors';
-
-export interface ErrorObject {
-    error?: string;
-    status: number;
-    message: string;
-}
+import errors from '../constants/errors';
 
 /**
  * ApiError
  */
 class ApiError {
-
+    
     public code: keyof typeof errors;
 
     /**
-     * @param code Error code
+     * @param code Error code 
      */
     constructor(code: keyof typeof errors) {
         this.code = code;
     }
 
     /**
-     * Retrieve error object by code
+     * Send error message
      * @param res Express response
      */
-    send(res: Response): Response {
+    public send(res: Response): Response {
         if (ApiError.hasKey(errors, this.code)) {
             const error: ErrorObject = errors[this.code];
 
@@ -42,15 +36,20 @@ class ApiError {
     }
 
     /**
-     * Check if key is in object
+     * Check if key is located in object
      * @param obj Object
      * @param key Key
-     * @private
      */
     private static hasKey<O>(obj: O, key: PropertyKey): key is keyof O {
         return key in obj;
     }
 
+}
+
+export interface ErrorObject {
+    error?: string;
+    status: number;
+    message: string;
 }
 
 export default ApiError;

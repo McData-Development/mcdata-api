@@ -12,7 +12,7 @@ class Server {
     }
 
     constructor() {
-        initRoutes(this.application, this.options.prefix);
+        initRoutes(this._app, '/api');
     }
 
     /**

@@ -7,3 +7,7 @@ export const ServerApi = Axios.create({
 export const MojangApi = Axios.create({
     baseURL: 'https://api.mojang.com'
 });
+
+export const MojangSession = Axios.create({
+    baseURL: 'https://sessionserver.mojang.com/session/minecraft'
+});
