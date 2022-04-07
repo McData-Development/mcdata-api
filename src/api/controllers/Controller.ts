@@ -6,8 +6,16 @@ import ApiError from '../../utils/ApiError';
  */
 class Controller {
 
+    /**
+     * Node logger
+     * @protected
+     */
     protected Logger: typeof Logger = Logger;
 
+    /**
+     * ApiError
+     * @protected
+     */
     protected ApiError: typeof ApiError = ApiError;
 
 }

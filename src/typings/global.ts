@@ -3,3 +3,7 @@ export interface EnvironmentConfg {
     appname: string;
     environment: string;
 }
+
+export interface ServerDataConfig {
+    port: number;
+}
