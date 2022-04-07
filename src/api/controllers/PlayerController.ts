@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import Controller from './Controller';
 import PlayerService from '../services/PlayerService';
+import { Player } from '../../typings/structures';
 
 /**
  * PlayerController
@@ -18,7 +19,7 @@ class PlayerController extends Controller {
      */
     public async get(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
-            const player = await this.playerService.get(req.params.player);
+            const player: Player.Profile = await this.playerService.get(req.params.player);
             return res.json({ ...player });
         } catch (e: any) {
             switch (e.message) {
@@ -39,7 +40,7 @@ class PlayerController extends Controller {
      */
     public async history(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
-            const history = await this.playerService.history(req.params.player);
+            const history: Array<Player.History> = await this.playerService.history(req.params.player);
             return res.json({ history: [...history] });
         } catch (e: any) {
             switch (e.message) {
@@ -60,7 +61,7 @@ class PlayerController extends Controller {
      */
     public async skin(req: Request, res: Response, next: NextFunction): Promise<Response> {
         try {
-            const skin = await this.playerService.skin(req.params.player);
+            const skin: Player.Skin = await this.playerService.skin(req.params.player);
             return res.json({ skin: skin });
         } catch (e: any) {
             switch (e.message) {
