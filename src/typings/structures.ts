@@ -31,6 +31,14 @@ export namespace Server {
         ip: string;
         port: number;
         hostname: string;
+        status:
+            | 'Operational'
+            | 'Not operational';
+        debug: Debugging;
+        last_fetched: number;
+    }
+
+    export interface Online extends Info {
         players: {
             online: number;
             max: number;
@@ -45,14 +53,15 @@ export namespace Server {
             clean: Array<string>;
             html: Array<string>
         };
-        debug: {
-            ping: boolean;
-            query: boolean;
-            srv: boolean;
-            ipinsrv: boolean;
-            cnameinsrv: boolean;
-            querymismatch: boolean;
-        };
+    }
+
+    export interface Debugging {
+        ping: boolean;
+        query: boolean;
+        srv: boolean;
+        ipinsrv: boolean;
+        cnameinsrv: boolean;
+        querymismatch: boolean;
     }
 
 }
