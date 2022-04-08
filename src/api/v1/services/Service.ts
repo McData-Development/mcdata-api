@@ -1,6 +1,6 @@
 import NodeCache, { Options } from 'node-cache'; 
-import { MojangApi, ServerApi, MojangSession } from '../../utils/Axios';
-import Util from '../../utils/Util';
+import { MojangApi, ServerApi, MojangSession } from '../../../utils/Axios';
+import Util from '../../../utils/Util';
 
 /**
  * Service

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import Controller from './Controller';
 import PlayerService from '../services/PlayerService';
-import { Player } from '../../typings/structures';
+import { Player } from '../../../typings/structures';
 
 /**
  * PlayerController

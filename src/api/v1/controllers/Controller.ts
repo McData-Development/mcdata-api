@@ -1,5 +1,5 @@
-import Logger from '../../utils/Logger';
-import ApiError from '../../utils/ApiError';
+import Logger from '../../../utils/Logger';
+import ApiError from '../../../utils/ApiError';
 
 /**
  * Controller

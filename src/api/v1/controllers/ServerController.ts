@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import Controller from './Controller';
 import ServerService from '../services/ServerService';
-import { Server } from '../../typings/structures';
+import { Server } from '../../../typings/structures';
 
 /**
  * ServerController

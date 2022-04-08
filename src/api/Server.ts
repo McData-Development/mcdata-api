@@ -1,5 +1,5 @@
 import Express, { Application } from 'express';
-import { initRoutes } from './routes';
+import versionConfig from '../config/versions';
 
 /**
  * Server
@@ -12,7 +12,9 @@ class Server {
     }
 
     constructor() {
-        initRoutes(this._app, '/api');
+        for (let i: number = 0; i < versionConfig.length; i++) {
+            versionConfig[0].routes(this._app, `${this.options.prefix}/v${versionConfig[0].version}`)
+        }
     }
 
     /**

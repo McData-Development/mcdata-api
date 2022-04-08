@@ -1,6 +1,6 @@
 import Service from './Service';
-import { Player } from '../../typings/structures';
-import { Mojang } from '../../typings/apirequests';
+import { Player } from '../../../typings/structures';
+import { Mojang } from '../../../typings/apirequests';
 
 /**
  * PlayerService

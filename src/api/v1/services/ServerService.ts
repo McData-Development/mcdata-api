@@ -1,6 +1,6 @@
 import Service from './Service';
-import { Server } from '../../typings/structures';
-import { ServerStats } from '../../typings/apirequests';
+import { Server } from '../../../typings/structures';
+import { ServerStats } from '../../../typings/apirequests';
 
 /**
  * ServerService
