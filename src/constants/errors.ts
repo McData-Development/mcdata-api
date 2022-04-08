@@ -18,6 +18,10 @@ const errors: {[k: string]: ErrorItem} = {
     UNKNOWN_ERROR: {
         status: 500,
         message: 'An unknown error has been occurred.'
+    },
+    METHOD_NOT_ALLOWED: {
+        status: 405,
+        message: 'Method is now allowed on this server!'
     }
 }
 
