@@ -1,7 +1,7 @@
 import { initRoutesv1 } from '../api/v1/routes';
-import { VersionConfig } from '../typings/global';
+import { VersionConfig, VersionRoutes } from '../typings/global';
 
-const versionConfig: Array<VersionConfig> = [
+const versionConfig: Array<VersionConfig & VersionRoutes> = [
     {
         version: 1,
         active: true,

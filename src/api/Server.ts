@@ -1,5 +1,6 @@
 import Express, { Application } from 'express';
 import versionConfig from '../config/versions';
+import { VersionConfig, VersionRoutes } from '../typings/global';
 
 /**
  * Server
@@ -12,9 +13,17 @@ class Server {
     }
 
     constructor() {
-        for (let i: number = 0; i < versionConfig.length; i++) {
-            versionConfig[0].routes(this._app, `${this.options.prefix}/v${versionConfig[0].version}`)
-        }
+        versionConfig.forEach((version: VersionConfig & VersionRoutes): void => {
+            version.routes(
+                this._app,
+                `${this.options.prefix}/v${version.version}`,
+                {
+                    active: version.active,
+                    status: version.status,
+                    version: version.version
+                }
+            );
+        });
     }
 
     /**
