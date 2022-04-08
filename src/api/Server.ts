@@ -1,4 +1,4 @@
-import Express, { Application } from 'express';
+import Express, { Application, NextFunction, Request, Response } from 'express';
 import versionConfig from '../config/versions';
 import { VersionConfig, VersionRoutes } from '../typings/global';
 
@@ -13,16 +13,24 @@ class Server {
     }
 
     constructor() {
+        this._app.get(`${this.options.prefix}`, (req: Request, res: Response): Response => {
+            return res.json({
+                name: 'McData API',
+                description: 'This API provides endpoints for requesting different type of Minecraft information.',
+                author: 'McData',
+                versions: versionConfig.map((version: VersionConfig & VersionRoutes) => {
+                    return { version: `v${version.version}`, status: version.status, support: version.support };
+                })
+            });
+        });
+
         versionConfig.forEach((version: VersionConfig & VersionRoutes): void => {
-            version.routes(
-                this._app,
-                `${this.options.prefix}/v${version.version}`,
-                {
-                    active: version.active,
-                    status: version.status,
-                    version: version.version
-                }
-            );
+            if (version.active) {
+                version.routes(
+                    this._app,
+                    `${this.options.prefix}/v${version.version}`
+                );
+            }
         });
     }
 
