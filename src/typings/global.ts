@@ -13,10 +13,11 @@ export interface VersionConfig {
         | 'Available'
         | 'Deprecated'
         | 'Discontinued';
+    support: boolean;
 }
 
 export interface VersionRoutes {
-    routes: (router: Router, prefix: string, version: VersionConfig) => void;
+    routes: (router: Router, prefix: string) => void;
 }
 
 export interface ServerDataConfig {

@@ -1,14 +1,13 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import PlayerRoute from './PlayerRoute';
 import ServerRoute from './ServerRoute';
-import { VersionConfig } from '../../../typings/global';
 
 /**
  * Initialse routes v1
  * @param router Express router
  * @param prefix URL prefix
  */
-export const initRoutesv1 = (router: Router, prefix: string = '/api', version: VersionConfig): void => {
+export const initRoutesv1 = (router: Router, prefix: string = '/api'): void => {
     router.use(`${prefix}/players`, new PlayerRoute().router);
     router.use(`${prefix}/servers`, new ServerRoute().router);
 

@@ -6,7 +6,8 @@ const versionConfig: Array<VersionConfig & VersionRoutes> = [
         version: 1,
         active: true,
         status: 'Available',
-        routes: initRoutesv1
+        routes: initRoutesv1,
+        support: true
     }
 ];
 
