@@ -1,14 +1,13 @@
-# Environment variables
-.env
-
-# IDE
-.vscode
-.idea
-
 # Dependencies
 node_modules/
-dist/
 
-# Yarn
-yarn.lock
+# Production
+.env
+build/
+
+# Misc
+.vscode/
+.idea/
+.fleet/
+
 yarn-error.log
