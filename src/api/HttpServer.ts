@@ -1,6 +1,7 @@
 import Express, { Application } from 'express';
 import EventEmitter from 'node:events';
 import type { IHttpServerOptions } from '../types/global.interface';
+import { initRoutes } from './routes';
 
 class HttpServer extends EventEmitter {
   private app: Application = Express();
@@ -21,20 +22,16 @@ class HttpServer extends EventEmitter {
   }
 
   /**
-   * Emit debug event
-   * @param message Debug message
-   */
-  public debug(message: string): void {
-    console.log(message);
-    this.emit('debug', message);
-  }
-
-  /**
    * Listen to HTTP port
    */
   private listen(): void {
     this.app.listen(this.options.port, (): void => {
       this.emit('debug', `Back-end service is listening to port ${this.options.port}`);
+
+      // Initialise routes when app is ready for listening
+      initRoutes(this);
+
+      this.emit('ready');
     });
   }
 }
