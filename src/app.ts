@@ -1,19 +1,21 @@
-import { Application } from 'express';
-import { createServer, Server as HttpServer } from 'http';
-import { config as insertEnv } from 'dotenv';
-insertEnv();
+import { config as inserEnv } from 'dotenv';
+inserEnv();
 
-import config from './config';
-import Server from './api/Server';
+import HttpServer from './api/HttpServer';
 import Logger from './utils/Logger';
+import config from './constants/config';
 
-const app: Application = new Server().application;
-const server: HttpServer = createServer(app);
+const server: HttpServer = new HttpServer({ ...config, prefix: '/api' });
+const logger: Logger = new Logger('Http');
 
-server.listen(config.port, (): void => {
-    Logger.ready(`API is running on port ${config.port}`);
+server.on('ready', (): void => {
+  logger.ready(`${config.name} (${config.url}) is fully initialized!`);
 });
 
-server.on('close', (): void => {
-    Logger.info('API is closed.'); 
+server.on('debug', (message: string): void => {
+  logger.info(message);
+});
+
+server.on('incoming', (message: string): void => {
+  logger.info(message);
 });
