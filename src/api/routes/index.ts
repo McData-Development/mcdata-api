@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express';
 import type HttpServer from '../HttpServer';
+import { ModulesMiddleware } from '../middleware';
 import HealthRoute from './HealthRoute';
 
 /**
@@ -7,9 +8,12 @@ import HealthRoute from './HealthRoute';
  * @param server HttpServer
  */
 export const initRoutes = (server: HttpServer): void => {
-  server.application.use(`${server.options.prefix}/health`, new HealthRoute(server).router);
+  const { options, application } = server;
 
-  server.application.use('', (req: Request, res: Response): Response => {
+  ModulesMiddleware.register(server);
+
+  application.use(`${options.prefix}/health`, new HealthRoute(server).router);
+  application.use('', (req: Request, res: Response): Response => {
     return res.status(404).json({ error: 'UNKNOWN_ENDPOINT', message: 'We could not find any referring endpoint.' });
   });
 };

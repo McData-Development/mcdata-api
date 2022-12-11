@@ -15,3 +15,7 @@ server.on('ready', (): void => {
 server.on('debug', (message: string): void => {
   logger.info(message);
 });
+
+server.on('incoming', (message: string): void => {
+  logger.info(message);
+});
