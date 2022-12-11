@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Production
+.env
+build/
+
+# Misc
+.eslintignore
+.editorconfig
+.eslintrc.yml
+.gitignore
+
+.fleet/
+.vscode/
+.idea/
+
+README.md
+LICENSE
+
+# Docker
+.dockerignore
+Dockerfile
