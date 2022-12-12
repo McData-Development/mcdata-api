@@ -1,4 +1,4 @@
-import Axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import type { Request, Response } from 'express';
 import config from '../../constants/config';
 import AuthService from '../services/AuthService';
@@ -13,7 +13,7 @@ class AuthController extends Controller {
    * @param res Express response
    */
   public async oauth(req: Request, res: Response): Promise<Response> {
-    const { channel_link } = req.query;
+    const { channel_link, user_id } = req.query;
 
     try {
       let oauth = 'https://mc-auth.com/oauth2/authorize';
@@ -21,7 +21,7 @@ class AuthController extends Controller {
       oauth += `&redirect_uri=${config.mcauth.redirectUri}`;
       oauth += '&response_type=code';
       oauth += '&scope=profile';
-      oauth += `&state=${channel_link ? encodeURIComponent(channel_link.toString()) : ''}`;
+      oauth += `&state=${JSON.stringify({ channel_link, user_id })}`;
       
       return res.json({ oauth_url: oauth });
     } catch (e: unknown) {
@@ -47,7 +47,7 @@ class AuthController extends Controller {
         code: code.toString()
       });
   
-      return res.redirect(data.state);
+      return res.redirect(data.state.channel_link);
     } catch (e: unknown) {
       this.logger.error(e);
 

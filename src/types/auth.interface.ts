@@ -5,7 +5,7 @@ export interface ITokenPayload {
   redirectUri: string;
 }
 
-export interface ITokenResponse {
+export interface ITokenResponseRaw {
   access_token: string;
   token_type: 'Bearer';
   expires_in: number;
@@ -22,5 +22,12 @@ export interface ITokenResponse {
         signature: string;
       }[];
     };
+  };
+}
+
+export interface ITokenResponse extends Omit<ITokenResponseRaw, 'state'> {
+  state: {
+    channel_link: string;
+    user_id: string;
   };
 }
