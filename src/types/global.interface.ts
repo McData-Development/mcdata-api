@@ -5,6 +5,11 @@ export interface IConfig {
     | 'production';
   port: number;
   url: string;
+  mcauth: {
+    clientId: string;
+    clientSecret: string;
+    redirectUri: string;
+  };
 }
 
 export interface IHttpServerOptions extends IConfig {

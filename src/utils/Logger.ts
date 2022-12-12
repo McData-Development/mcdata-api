@@ -16,24 +16,24 @@ class Logger {
    * Info log
    * @param message Log message
    */
-  public info(message: string | object): void {
-    console.info(`[${moment().format('DD/MM/YYYY HH:mm:ss')}] ${MAGENTA}${this.prefix} | Info${RESET} - ${message}`);
+  public info(message: string | object | unknown): void {
+    console.info(`[${moment().format('DD/MM/YYYY HH:mm:ss')}] ${MAGENTA}${this.prefix || 'Log'} | Info${RESET} - ${message}`);
   }
 
   /**
    * Ready log
    * @param message Log message
    */
-  public ready(message: string | object): void {
-    console.info(`[${moment().format('DD/MM/YYYY HH:mm:ss')}] ${GREEN}${this.prefix} | Ready${RESET} - ${message}`);
+  public ready(message: string | object | unknown): void {
+    console.info(`[${moment().format('DD/MM/YYYY HH:mm:ss')}] ${GREEN}${this.prefix || 'Log'} | Ready${RESET} - ${message}`);
   }
 
   /**
    * Error log
    * @param message Log message
    */
-  public error(message: string | object): void {
-    console.error(`[${moment().format('DD/MM/YYYY HH:mm:ss')}] ${RED}${this.prefix} | Error${RESET} - ${message}`);
+  public error(message: string | object | unknown): void {
+    console.error(`[${moment().format('DD/MM/YYYY HH:mm:ss')}] ${RED}${this.prefix || 'Log'} | Error${RESET} - ${message}`);
   }
 }
 
