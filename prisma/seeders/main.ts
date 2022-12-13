@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import BadgeSeeder from './BadgeSeeder';
+import UserSeeder from './UserSeeder';
 
 /**
  * Main
@@ -16,6 +17,7 @@ class Main {
    */
   public async run(): Promise<void> {
     await new BadgeSeeder(this.prisma).run();
+    await new UserSeeder(this.prisma).run();
   }
 
 }
