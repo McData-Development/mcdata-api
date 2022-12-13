@@ -7,6 +7,9 @@
     "type": "git",
     "url": "https://github.com/McData-Development/mcdata-api.git"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seeders/main.ts"
+  },
   "author": "HalloSouf",
   "license": "MIT",
   "scripts": {

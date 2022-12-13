@@ -24,8 +24,7 @@ model Badge {
   name        String  @db.VarChar(50)
   badge       String  @db.VarChar(100)
   description String  @db.VarChar(100)
-  user        User    @relation(fields: [user_id], references: [id])
-  user_id     String
+  users       User[]
 
   @@map("badges")
 }
