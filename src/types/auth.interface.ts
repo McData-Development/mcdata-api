@@ -29,5 +29,6 @@ export interface ITokenResponse extends Omit<ITokenResponseRaw, 'state'> {
   state: {
     channel_link: string;
     user_id: string;
+    oauth_account: string;
   };
 }
