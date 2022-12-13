@@ -1,12 +1,10 @@
 name: Test & Run codebase
 
 on:
-  push:
+  pull_request:
     branches:
       - "main"
       - "dev"
-    paths-ignore:
-      - "**/*.md"
 
 jobs:
   run-tests:
