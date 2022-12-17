@@ -9,7 +9,7 @@ const server: HttpServer = new HttpServer({ ...config, prefix: '/api' });
 const logger: Logger = new Logger('Http');
 
 server.on('ready', (): void => {
-  logger.ready(`${config.name} (${config.url}) is fully initialized!`);
+  logger.ready(`${config.name} is fully initialized with environment ${config.environment}!`);
 });
 
 server.on('debug', (message: string): void => {

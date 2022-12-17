@@ -16,6 +16,7 @@ class UserRoute extends Route {
    */
   private init(): void {
     this.router.get('/:userId', this.controller.get.bind(this.controller));
+    this.router.put('/:userId', this.controller.update.bind(this.controller));
   }
 }
 

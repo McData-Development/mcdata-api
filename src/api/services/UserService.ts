@@ -19,11 +19,11 @@ class UserService extends Service {
   }
 
   /**
-   * Get an user
+   * Get a user
    * @param options Prisma options
    */
   public async get(options: Prisma.UserFindFirstArgs) {
-    return await this.prisma.user.findFirst(options); 
+    return await this.prisma.user.findFirst(options);
   }
 }
 
