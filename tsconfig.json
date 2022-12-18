@@ -33,5 +33,5 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["prisma/**"]
+  "exclude": ["prisma/**", "scripts/**"]
 }
