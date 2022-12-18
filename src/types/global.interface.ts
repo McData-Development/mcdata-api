@@ -5,6 +5,7 @@ export interface IConfig {
     | 'production';
   port: number;
   url: string;
+  apiKey: string;
   mcauth: {
     clientId: string;
     clientSecret: string;

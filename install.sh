@@ -7,7 +7,7 @@ echo
 echo "Initializing project setup"
 echo
 
-echo "(1/2) Installing dependencies"
+echo "(1/3) Installing dependencies"
 manager=none
 which npm &> /dev/null && manager=npm
 which yarn &> /dev/null && manager=yarn
@@ -32,8 +32,12 @@ else
 fi
 
 echo
-echo "(2/2) Creating new .env file from .env.example"
+echo "(2/3) Creating new .env file from .env.example"
 cp .env.example .env
+
+echo
+echo "(3/3) Generate API key for service"
+[ $manager == "yarn" ] && yarn run scripts:generate-apikey || npm run scripts:generate-apikey
 
 echo
 echo "Project setup is done!"
