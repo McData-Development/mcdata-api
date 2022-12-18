@@ -5,6 +5,7 @@ const config: IConfig = {
   environment: process.env.APP_ENV === 'production' ? 'production' : 'development',
   port: parseInt(process.env.APP_PORT || '3020'),
   url: process.env.APP_URL || 'https://mcdata.com/',
+  apiKey: process.env.API_KEY || '',
   mcauth: {
     clientId: process.env.MCAUTH_ID || '1234',
     clientSecret: process.env.MCAUTH_SECRET || '****',
