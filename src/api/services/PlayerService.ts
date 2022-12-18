@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import type { IPlayerProfile, IPlayerProfileResponse } from '../../types/player.interface';
 import Service from './Service';
 
@@ -10,21 +11,17 @@ class PlayerService extends Service {
    * Get Minecraft player data
    * @param credentials Minecraft player credentials
    */
-  public async get(credentials: string): Promise<IPlayerProfile> {
+  public async get(credentials: string): Promise<IPlayerProfile | undefined> {
     const tag = credentials.toLocaleLowerCase().split('-').join('');
 
-    const cachedPlayer = this.cache.get<IPlayerProfile>(tag);
-    if (cachedPlayer) return cachedPlayer;
+    const cachedPlayer = this.cache.get<IPlayerProfile | null>(tag);
+    if (cachedPlayer || cachedPlayer === null) return cachedPlayer || undefined;
 
-    if (tag.length <= 16) {
-      const player = await this.fetchUUID(tag);
-      this.cache.set<IPlayerProfile>(tag, { ...player });
-      return player;
-    }
+    console.log(cachedPlayer);
 
-    const player = await this.fetchUsername(tag);
-    this.cache.set(tag, { ...player });
-    return player;
+    if (tag.length <= 16) return await this.fetchUUID(tag);
+
+    return await this.fetchUsername(tag);
   }
 
   /**
@@ -32,10 +29,20 @@ class PlayerService extends Service {
    * @param username Minecraft player username
    */
   private async fetchUUID(username: string): Promise<IPlayerProfile> {
-    const { data, status } = await this.mojangApi.get<IPlayerProfileResponse>(`/users/profiles/minecraft/${username}`);
-    if (status === 404) throw new Error(`Could not find a player with this username: ${username}`);
+    try {
+      const { data } = await this.mojangApi.get<IPlayerProfileResponse>(`/users/profiles/minecraft/${username}`);
+      this.cache.set<IPlayerProfile>(username, { id: data.id, name: data.name });
+      return { id: data.id, name: data.name };
+    } catch (e: unknown) {
+      if (e instanceof AxiosError) {
+        if (e.response?.status === 404) {
+          this.cache.set<undefined>(username, undefined);
+          throw new Error('UNKNOWN_PLAYER', { cause: `Could not find a player with this username: ${username}` });
+        }
+      }
 
-    return { id: data.id, name: data.name };
+      throw e;
+    }
   }
 
   /**
@@ -43,10 +50,20 @@ class PlayerService extends Service {
    * @param uuid Minecraft player UUId
    */
   private async fetchUsername(uuid: string): Promise<IPlayerProfile> {
-    const { data, status } = await this.mojangSession.get<IPlayerProfileResponse>(`/profile/${uuid}`);
-    if (status === 400) throw new Error(`Could not find a player with this UUID: ${uuid}`);
+    try {
+      const { data } = await this.mojangSession.get<IPlayerProfileResponse>(`/profile/${uuid}`);
+      this.cache.set<IPlayerProfile>(uuid, { id: data.id, name: data.name });
+      return { id: data.id, name: data.name };
+    } catch (e: unknown) {
+      if (e instanceof AxiosError) {
+        if (e.response?.status === 400) {
+          this.cache.set<undefined>(uuid, undefined);
+          throw new Error('UNKNOWN_PLAYER', { cause: `Could not find a player with this UUID: ${uuid}` });
+        }
+      }
 
-    return { id: data.id, name: data.name };
+      throw e;
+    }
   }
 }
 
