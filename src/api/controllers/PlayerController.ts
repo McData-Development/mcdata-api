@@ -5,6 +5,11 @@ import Controller from './Controller';
 class PlayerController extends Controller {
   private playerService: PlayerService = new PlayerService();
 
+  /**
+   * Get player data with UUID or username
+   * @param req Express request
+   * @param res Express response
+   */
   public async get(req: Request, res: Response) {
     const { player: credentials } = req.params;
     if (!credentials) return res.status(400).json({ message: 'Missing required parameters.' });
