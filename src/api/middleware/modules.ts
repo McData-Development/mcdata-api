@@ -9,7 +9,7 @@ const ModulesMiddleware = {
    * Register modules as middleware
    * @param server HttpServer
    */
-  register: (server: HttpServer) => {
+  register: (server: HttpServer): void => {
     server.application.use(helmet());
     server.application.use(json());
     server.application.use(urlencoded({ extended: false }));
