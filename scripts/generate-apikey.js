@@ -1,39 +1,38 @@
 const { parse } = require('dotenv');
 const { v4: uuid } = require('uuid');
-const { readFileSync, writeFileSync, closeSync, openSync } = require('node:fs');
+const { promises: fs, closeSync } = require('node:fs');
 
 const MAGENTA = '\x1b[35m';
 const RESET = '\x1b[0m';
 const GREEN = '\x1b[32m';
 
-const runScript = () => {
+const runScript = async () => {
   try {
-    const dotFile = readFileSync('.env', { encoding: 'utf-8' });
     console.info(`Script | Initializing ${MAGENTA}.env${RESET} file...`);
+    const dotFile = await fs.readFile('.env', { encoding: 'utf-8' });
     const config = parse(dotFile);
 
     config['API_KEY'] = uuid();
-    writeConfig('.env', config);
+    await writeConfig('.env', config);
 
     console.info(`Script | New API key is ${GREEN}generated${RESET}!`);
   } catch (e) {
-    switch (e.code) {
-      case 'ENOENT': {
-        const dotFile = readFileSync('.env.example', { encoding: 'utf-8' });
-        console.info(`Script | Initializing ${MAGENTA}.env.example${RESET} file.`);
-        const config = parse(dotFile);
-        
-        console.info(`Script | Creating new ${MAGENTA}.env${RESET} file...`);
-        closeSync(openSync('.env', 'w'));
-        writeConfig('.env', config);
-        console.info(`Script | New API key is ${GREEN}generated${RESET}!`);
-        break;
-      }
+    if (e.code === 'ENOENT') {
+      console.log(`Script | Initializing ${MAGENTA}.env.example${RESET} file.`);
+      const dotFile = await fs.readFile('.env.example', { encoding: 'utf-8' });
+      const config = parse(dotFile);
+
+      console.info(`Script | Creating new ${MAGENTA}.env${RESET} file...`);
+      closeSync(await fs.open('.env', 'w'));
+      await writeConfig('.env', config);
+      console.info(`Script | New API key is ${GREEN}generated${RESET}!`);
+    } else {
+      console.error(e);
     }
   }
 };
 
-const writeConfig = (path, config) => {
+const writeConfig = async (path, config) => {
   try {
     let configString = [];
     for (const key in config) {
@@ -46,7 +45,7 @@ const writeConfig = (path, config) => {
       }
     }
 
-    writeFileSync(path, configString.map(val => val.items.join('\n')).join('\n\n'));
+    await fs.writeFile(path, configString.map(val => val.items.join('\n')).join('\n\n'));
   } catch (e) {
     console.error(e);
   }
