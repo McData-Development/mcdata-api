@@ -13,10 +13,11 @@ class Snowflake {
     const timestamp = Date.now();
     if (factor >= 4095) factor = 0;
 
-    const binary: Array<string> = [];
-    binary[0] = (timestamp - epoche).toString(2).padStart(42, '0');
-    binary[1] = (1).toString(2).padStart(5, '0') + (0).toString(2).padStart(5, '0');
-    binary[2] = (factor++).toString(2).padStart(12, '0');
+    const binary: Array<string> = [
+      (timestamp - epoche).toString(2).padStart(42, '0'),
+      (1).toString(2).padStart(5, '0') + (0).toString(2).padStart(5, '0'),
+      (factor++).toString(2).padStart(12, '0')
+    ];
 
     return this.toID(binary.join(''));
   }
@@ -26,13 +27,13 @@ class Snowflake {
    * @param binary Binary string
    */
   private static toID(binary: string): string {
-    let dec = '';
+    const decimals: number[] = [];
 
     while (binary.length > 50) {
       const high: number = parseInt(binary.slice(0, -32), 2);
       const low = parseInt((high % 10).toString(2) + binary.slice(-32), 2);
             
-      dec = (low % 10).toString() + dec;
+      decimals.unshift(low % 10);
       binary =
                 Math.floor(high / 10).toString(2) +
                 Math.floor(low / 10)
@@ -42,11 +43,11 @@ class Snowflake {
 
     let mutatedBinary: number = parseInt(binary, 2);
     while (mutatedBinary > 0) {
-      dec = (mutatedBinary % 10).toString() + dec;
+      decimals.unshift(mutatedBinary % 10);
       mutatedBinary = Math.floor(mutatedBinary / 10);
     }
 
-    return dec;
+    return decimals.join('');
   }
 
 }

@@ -1,9 +1,9 @@
 import { config as inserEnv } from 'dotenv';
-inserEnv();
-
 import HttpServer from './api/HttpServer';
 import Logger from './utils/Logger';
 import config from './constants/config';
+
+inserEnv();
 
 const server: HttpServer = new HttpServer({ ...config, prefix: '/api' });
 const logger: Logger = new Logger('Http');
