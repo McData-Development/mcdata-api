@@ -87,11 +87,11 @@ class UserController extends Controller {
         user.accounts
           .filter(account => account.minecraft_id !== null)
           .map(async (account: Account) => {
-            const { id, name } = await this.playerService.get(account.minecraft_id as string);
+            const playerData = await this.playerService.get(account.minecraft_id as string);
             return {
               id: account.id,
-              uuid: id,
-              username: name,
+              uuid: playerData?.id || 'Unknown',
+              username: playerData?.name || 'Unknown',
               created_at: account.created_at,
               updated_at: account.updated_at
             };
