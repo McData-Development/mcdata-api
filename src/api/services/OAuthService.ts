@@ -67,7 +67,7 @@ class OAuthService extends Service {
 
     return {
       ...data,
-      state: JSON.parse(data.state)
+      state: JSON.parse(data.state.replace(/\\/g, ''))
     };
   }
 
