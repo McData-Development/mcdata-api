@@ -1,17 +1,26 @@
-FROM 19.2-alpine as build
-FROM nginx:alpine
+FROM node:19.4-alpine as build
+
+# Add required packages
+RUN apk add --no-cache openssl1.1-compat-dev
 
 # Set working directory to /build inside the container
 WORKDIR /build
-COPY package.json ./
-COPY yarn.lock ./
+COPY package.json yarn.lock* package-lock.json* ./
 
 # Install dependencies
-RUN npm ci --silent
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci --silent; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 COPY . ./
 
-# Save build folder and run nginx server
-EXPOSE 8080
-COPY --from=build /build/build/ /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# Generating prisma scheme's
+RUN npx prisma generate
+
+# Build application
+RUN yarn run build
+
+EXPOSE 3020
+
+ENTRYPOINT ["yarn", "run", "start:build"]

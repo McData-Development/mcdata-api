@@ -17,6 +17,7 @@
     "start": "ts-node src/app.ts",
     "dev:build": "nodemon build/app.js",
     "start:build": "node build/app.js",
+    "build": "tsc --build",
     "scripts:generate-apikey": "node scripts/generate-apikey.js"
   },
   "devDependencies": {
