@@ -4,7 +4,7 @@ services:
   mcdata-api:
     build: .
     image: mcdata-api
-    container_name: mcdata_api
+    container_name: mcdata-api
     restart: unless-stopped
     volumes:
       - .env:/build/.env
