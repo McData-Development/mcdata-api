@@ -31,5 +31,6 @@
     // Interop Constraints
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "exclude": ["tests", "vitest.config.ts"]
 }
