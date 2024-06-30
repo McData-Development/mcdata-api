@@ -1,0 +1,24 @@
+name: Tests
+on:
+  push:
+  pull_request:
+jobs:
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 21
+      - name: Install dependencies
+        run: yarn install
+      - name: Run test files
+        run: yarn test
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: mcdata-dev/mcdata-data
