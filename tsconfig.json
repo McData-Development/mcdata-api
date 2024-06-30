@@ -31,6 +31,5 @@
     // Interop Constraints
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
-  },
-  "exclude": ["prisma/**"]
+  }
 }

@@ -8,7 +8,7 @@ class Controller {
    * Logger instance.
    * @type {HalloLogger}
    */
-  protected readonly logger: HalloLogger = new HalloLogger({
+  public logger: HalloLogger = new HalloLogger({
     withDate: true
   });
 }

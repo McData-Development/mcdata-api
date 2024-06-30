@@ -17,7 +17,8 @@
     "start": "node build/app.js",
     "build": "tsc --build",
     "format": "prettier --write .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "vitest run --coverage"
   },
   "devDependencies": {
     "@eslint/js": "^9.6.0",
@@ -25,6 +26,7 @@
     "@types/express": "^4.17.14",
     "@types/morgan": "^1.9.3",
     "@types/node": "^18.11.12",
+    "@vitest/coverage-v8": "^1.6.0",
     "eslint": "9.x",
     "globals": "^15.7.0",
     "nodemon": "^2.0.20",
@@ -32,7 +34,8 @@
     "ts-node": "^10.9.1",
     "tslib": "^2.6.3",
     "typescript": "^4.9.4",
-    "typescript-eslint": "^7.14.1"
+    "typescript-eslint": "^7.14.1",
+    "vitest": "^1.6.0"
   },
   "dependencies": {
     "@mcdata/data": "^1.0.5",
