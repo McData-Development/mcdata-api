@@ -1,4 +1,3 @@
-import ModulesMiddleware from './modules';
-import GlobalMiddleware from './global';
+import ModulesMiddleware from './ModulesMiddleware';
 
-export { ModulesMiddleware, GlobalMiddleware };
+export { ModulesMiddleware };

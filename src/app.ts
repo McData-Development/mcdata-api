@@ -1,15 +1,21 @@
 import { config as inserEnv } from 'dotenv';
 inserEnv();
 
+import HalloLogger from 'hallo-logger';
 import HttpServer from './api/HttpServer';
-import Logger from './utils/Logger';
 import config from './constants/config';
 
-const server: HttpServer = new HttpServer({ ...config, prefix: '/api' });
-const logger: Logger = new Logger('Http');
+const startTime = Date.now();
+
+const server: HttpServer = new HttpServer({ ...config, prefix: '' });
+const logger: HalloLogger = new HalloLogger();
 
 server.on('ready', (): void => {
-  logger.ready(`${config.name} is fully initialized with environment ${config.environment}!`);
+  HalloLogger.appReady(startTime, {
+    name: config.name,
+    environment: config.environment,
+    port: `:${config.port}`
+  });
 });
 
 server.on('debug', (message: string): void => {

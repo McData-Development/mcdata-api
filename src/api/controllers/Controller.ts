@@ -1,7 +1,16 @@
-import Logger from '../../utils/Logger';
+import HalloLogger from 'hallo-logger';
 
+/**
+ * Base class for all controllers.
+ */
 class Controller {
-  protected readonly logger: Logger = new Logger('HTTP Controller');
+  /**
+   * Logger instance.
+   * @type {HalloLogger}
+   */
+  protected readonly logger: HalloLogger = new HalloLogger({
+    withDate: true
+  });
 }
 
 export default Controller;

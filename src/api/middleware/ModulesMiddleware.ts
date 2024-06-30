@@ -15,16 +15,22 @@ const ModulesMiddleware = {
     server.application.use(urlencoded({ extended: false }));
     server.application.use(
       cors({
-        origin: server.options.environment === 'production' ? server.options.url : '*',
+        origin:
+          server.options.environment === 'production'
+            ? server.options.url
+            : '*',
         methods: ['GET', 'POST', 'HEAD', 'DELETE', 'PUT']
       })
     );
     server.application.use(
-      morgan(server.options.environment === 'production' ? 'short' : 'combined', {
-        stream: {
-          write: (message: string) => server.emit('incoming', message)
+      morgan(
+        server.options.environment === 'production' ? 'short' : 'combined',
+        {
+          stream: {
+            write: (message: string) => server.emit('incoming', message)
+          }
         }
-      })
+      )
     );
   }
 };

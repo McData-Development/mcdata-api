@@ -21,10 +21,9 @@
     "rootDir": "./src",
     "moduleResolution": "Node",
     "module": "CommonJS",
-    
+
     // Emit
     "noEmitHelpers": true,
-    "importsNotUsedAsValues": "error",
     "importHelpers": true,
     "outDir": "./build",
     "inlineSourceMap": true,
@@ -33,5 +32,5 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["prisma/**", "scripts/**"]
+  "exclude": ["prisma/**"]
 }
