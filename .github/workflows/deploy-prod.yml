@@ -23,7 +23,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             # Change directory to project directory
-            cd mcdata
+            cd mcdata-api
 
             # Load environment variables
             echo "
