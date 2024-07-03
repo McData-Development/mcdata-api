@@ -23,4 +23,24 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             # Change directory to project directory
-            cd mcdata-api
+            cd mcevert/store-service
+
+            # Load environment variables
+            echo "
+            APP_NAME=${{ vars.APP_NAME }}
+            APP_ENV=${{ vars.APP_ENV }}
+            APP_PORT=${{ vars.APP_PORT }}
+            APP_URL=${{ vars.APP_URL }}
+            " > .env
+
+            # Pull newest code
+            git pull
+
+            # Install newest dependencies
+            yarn install --frozen-lockfile 
+
+            # Build production code
+            yarn build
+
+            # Restart process manager
+            pm2 restart "store-service"
