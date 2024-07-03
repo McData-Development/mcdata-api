@@ -23,7 +23,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             # Change directory to project directory
-            cd mcevert/store-service
+            cd mcdata
 
             # Load environment variables
             echo "
@@ -43,4 +43,4 @@ jobs:
             yarn build
 
             # Restart process manager
-            pm2 restart "store-service"
+            pm2 restart "mcdata-api"
