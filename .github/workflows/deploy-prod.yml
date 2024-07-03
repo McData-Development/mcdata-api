@@ -29,15 +29,3 @@ jobs:
 
             # Change directory to project directory
             cd mcdata-api
-
-            # Pull newest code
-            git pull
-
-            # Install newest dependencies
-            yarn install --frozen-lockfile 
-
-            # Build production code
-            yarn build
-
-            # Restart process manager
-            pm2 restart "mcdata-api"
