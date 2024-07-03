@@ -1,0 +1,51 @@
+name: Deploy to production
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy production build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [19.x]
+
+    steps:
+      
+      - name: Deploying
+        uses: appleboy/ssh-action@master
+        with:
+            host: ${{ secrets.SERVER_HOST }}
+            username: ${{ secrets.SERVER_USER }}
+            password: ${{ secrets.SERVER_PASSWORD }}
+            script: |
+                set -e
+
+                export NVM_DIR="$HOME/.nvm" # Export NVM
+                [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+                # Change directory to project directory
+                cd mcdata-api
+
+                # Load environment variables
+                echo "
+                APP_NAME=${{ vars.APP_NAME }}
+                APP_ENV=${{ vars.APP_ENV }}
+                APP_PORT=${{ vars.APP_PORT }}
+                APP_URL=${{ vars.APP_URL}}
+                " > .env
+
+                # Pull newest code
+                git pull
+
+                # Install newest dependencies
+                yarn install --frozen-lockfile 
+
+                # Build production code
+                yarn build
+
+                # Restart process manager
+                pm2 restart "mcdata-api"
